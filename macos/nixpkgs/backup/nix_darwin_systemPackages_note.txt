@@ -1,0 +1,1 @@
+Please manually backup nix-darwin systemPackages from your nixpkgs config or flake.nix

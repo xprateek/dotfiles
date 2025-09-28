@@ -1,0 +1,38 @@
+#!/bin/sh
+TOML=~/.config/nixpkgs/packages.toml
+cd /home/pmaru/.config/nixpkgs/scripts || exit 1
+
+timeout 5 bash -c 'nc -z github.com 443 && nc -z nixos.org 443' 2>/dev/null || { echo "Network fail"; exit 1; }
+echo "1/6 Net OK"
+
+# DNF (fixed parsing)
+sudo dnf upgrade -y >/dev/null 2>&1
+sudo dnf install -y $(sed -n '/\[dnf_critical\]/,/^\[/p' "$TOML" | grep '^[a-zA-Z0-9_-]*$' | head -c 500) 2>/dev/null || true
+sudo dnf autoremove -y >/dev/null 2>&1
+DNF_COUNT=$(grep -c '^[a-zA-Z0-9_-]*$' <(sed -n '/\[dnf_critical\]/,/^\[/p' "$TOML"))
+echo "2/6 DNF ($DNF_COUNT) done"
+
+# Brew (fixed parsing)
+brew update >/dev/null 2>&1
+brew install $(sed -n '/\[brew_cli\]/,/^\[/p' "$TOML" | grep '^[a-zA-Z0-9_-]*$' | head -c 500) >/dev/null 2>&1 || true
+brew cleanup >/dev/null 2>&1
+BREW_COUNT=$(grep -c '^[a-zA-Z0-9_-]*$' <(sed -n '/\[brew_cli\]/,/^\[/p' "$TOML"))
+echo "3/6 Brew ($BREW_COUNT) done"
+
+# Nix (fixed parsing)
+nix profile upgrade --all >/dev/null 2>&1 || true
+for pkg in $(sed -n '/\[nix_cli\]/,/^\[/p' "$TOML" | grep '^[a-zA-Z0-9_-]*$'); do
+  nix profile list | grep "nixpkgs#$pkg" >/dev/null 2>&1 || nix profile install "nixpkgs#$pkg" >/dev/null 2>&1 || true
+done
+NIX_COUNT=$(grep -c '^[a-zA-Z0-9_-]*$' <(sed -n '/\[nix_cli\]/,/^\[/p' "$TOML"))
+echo "4/6 Nix ($NIX_COUNT) done"
+
+./backup.sh
+echo "5/6 Backup done ($(ls ~/.config/nixpkgs/backup | wc -l) files)"
+
+nix-collect-garbage -d >/dev/null 2>&1
+echo "6/6 GC done"
+
+echo -n "Restore? [y/N]: "; read -r r
+[ "$r" = y ] && ./restore.sh
+echo "Done $(date +%H:%M)"

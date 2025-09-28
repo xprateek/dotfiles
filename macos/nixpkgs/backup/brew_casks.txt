@@ -1,0 +1,16 @@
+anaconda
+android-platform-tools
+docker-desktop
+font-caskaydia-mono-nerd-font
+font-fira-code-nerd-font
+google-chrome
+libreoffice
+libreoffice-language-pack
+podman-desktop
+proton-drive
+proton-mail
+proton-pass
+protonvpn
+visual-studio-code
+vivaldi@snapshot
+wezterm

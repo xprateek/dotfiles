@@ -1,0 +1,39 @@
+name: Update Dependencies with Bun
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # weekly on Monday
+  workflow_dispatch:
+
+jobs:
+  update-deps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Update dependencies
+        run: bun upgrade --latest
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          git diff --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
+
+      - name: Commit & Create Pull Request
+        if: steps.git-check.outputs.changes == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          branch: automated-bun-update
+          commit-message: "chore: automated Bun dependency update"
+          title: "[Automated] Bun dependency update"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: "This PR updates dependencies automatically using Bun package manager."
+          delete-branch: true

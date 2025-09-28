@@ -1,0 +1,6 @@
+#!/bin/sh
+echo "=== BEEL05 ==="
+echo "DNF: $(sudo dnf check-update 2>/dev/null | grep -v '^ *$' | wc -l) updates"
+echo "Brew: $(brew outdated 2>/dev/null | wc -l) outdated" 
+echo "Nix: $(nix profile list 2>/dev/null | wc -l) pkgs"
+echo "Flatpak: $(flatpak list --app 2>/dev/null | tail -n +3 | wc -l) apps"

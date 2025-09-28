@@ -1,0 +1,2 @@
+org.fkoehler.KTailctl
+org.gnome.Extensions

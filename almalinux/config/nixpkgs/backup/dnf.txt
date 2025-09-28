@@ -1,0 +1,12 @@
+cockpit-bridge-344-1.el10.noarch
+cockpit-files-24-1.el10.noarch
+cockpit-machines-337-1.el10.noarch
+cockpit-podman-111-1.el10.noarch
+cockpit-session-recording-20-1.el10.noarch
+docker-ce-3:29.1.1-1.el10.x86_64
+docker-ce-cli-1:29.1.1-1.el10.x86_64
+docker-compose-plugin-2.40.3-1.el10.x86_64
+fuse-2.9.9-25.el10.x86_64
+samba-4.22.4-106.el10_1.x86_64
+samba-client-4.22.4-106.el10_1.x86_64
+tailscale-1.90.9-1.x86_64

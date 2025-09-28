@@ -1,0 +1,5 @@
+6714467650  Perplexity              (2.251107.0)
+6502835663  Proton Pass for Safari  (1.32.11)
+1475387142  Tailscale               (1.90.4)
+747648890   Telegram                (12.2)
+310633997   WhatsApp                (25.34.74)

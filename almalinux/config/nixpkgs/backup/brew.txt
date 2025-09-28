@@ -1,0 +1,9 @@
+bat
+fastfetch
+fd
+fish
+fzf
+gh
+git
+ripgrep
+zoxide
