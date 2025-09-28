@@ -2,6 +2,8 @@
 
 This repository contains personalized dotfiles and configuration for macOS, NixOS, Linux, and Windows environments.
 
+<img width="1600" height="900" alt="Screenshot 2025-09-29 at 2 23 05 AM" src="https://github.com/user-attachments/assets/1bcba801-2c5f-4d55-a029-b24fe10656b7" />
+
 ## Structure Overview
 
 - **common/**: Cross-platform shared configs and scripts (fish shell, nvim, etc.)  
