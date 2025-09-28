@@ -1,0 +1,78 @@
+[[keyboard.bindings]]
+action = "Paste"
+key = "V"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "C"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "N"
+mods = "Command"
+
+[terminal]
+
+[colors.bright]
+black = "#414868"
+blue = "#424242"
+cyan = "#7dcfff"
+green = "#9ece6a"
+magenta = "#bb9af7"
+red = "#f7768e"
+white = "#c0caf5"
+yellow = "#ffd500"
+
+[colors.normal]
+black = "#1d202f"
+blue = "#424242"
+cyan = "#7dcfff"
+green = "#9ece6a"
+magenta = "#bb9af7"
+red = "#f7768e"
+white = "#a9b1d6"
+yellow = "#ffd500"
+
+[colors.primary]
+background = "#1a1a1a"
+foreground = "#c0caf5"
+
+[cursor]
+style = "Beam"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 16.0
+
+[font.bold]
+family = "CaskaydiaCove Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "CaskaydiaCove Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "CaskaydiaCove Nerd Font"
+style = "Regular"
+
+[font.offset]
+x = 0
+y = 1
+
+[terminal.shell]
+program = "/run/current-system/sw/bin/fish"
+
+[window]
+decorations = "full"
+opacity = 0.95
+
+[window.padding]
+x = 10
+y = 8
+
+[keyboard]

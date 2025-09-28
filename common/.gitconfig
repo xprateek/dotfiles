@@ -1,0 +1,5 @@
+[user]
+	name = xprateek
+	email = prateek@prateekspace.eu.org
+[core]
+	excludesfile = /Users/xprateek/.gitignore_global
