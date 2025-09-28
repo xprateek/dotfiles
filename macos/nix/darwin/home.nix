@@ -107,8 +107,4 @@
     end
   '';
 
-  # Similarly, manage other fish directories if desired with source or text
-  # Example:
-  # home.file."config/fish/functions/fish_prompt.fish".source = /path/to/your/functions/fish_prompt.fish;
-  # home.file."config/fish/completions/fisher.fish".source = /path/to/your/completions/fisher.fish;
 }
