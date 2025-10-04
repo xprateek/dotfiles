@@ -1,5 +1,5 @@
-nixpkgs#android-tools
-nixpkgs#fastfetch
-nixpkgs#oh-my-posh
-nixpkgs#scrcpy
-nixpkgs#wush
+nixpkgs#[1mandroid-tools[0m
+nixpkgs#[1mfastfetch[0m
+nixpkgs#[1moh-my-posh[0m
+nixpkgs#[1mscrcpy[0m
+nixpkgs#[1mwush[0m
