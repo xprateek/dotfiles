@@ -2,27 +2,19 @@
   description = "nix-darwin + Home Manager (rolling) with Homebrew";
 
   inputs = {
-    # Rolling nixpkgs
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-
-    # nix-darwin default branch aligned with nixpkgs-unstable
     nix-darwin.url = "github:nix-darwin/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Home Manager default branch following same nixpkgs
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Optional separate nixpkgs for the overlay pattern (here same as primary, but keeps pattern flexible)
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixpkgs-unstable, ... }:
   let
-    hostname = "Prateeks-Mac-mini";  # match scutil --get LocalHostName
+    hostname = "Prateeks-Mac-mini";
     username = "xprateek";
 
-    # Overlay that exposes pkgs.unstable.* from nixpkgs-unstable
     addUnstable = final: _prev: {
       unstable = import nixpkgs-unstable {
         system = "aarch64-darwin";
@@ -32,13 +24,11 @@
     };
 
     configuration = { pkgs, lib, config, ... }: {
-      # Keep nixpkgs policy at the system level (HM useGlobalPkgs guidance)
       nixpkgs = {
         config.allowUnfree = true;
         overlays = [ addUnstable ];
       };
 
-      # Required on nix-darwin master for options like homebrew.*
       system.primaryUser = username;
 
       users.users.${username} = {
@@ -47,33 +37,30 @@
         shell = pkgs.fish;
       };
 
-      # Ensure fish integration when using fish as login shell
       programs.fish.enable = true;
 
       environment.systemPackages = with pkgs; [
-        coreutils
-        curl
-        git
-        gh
-        jq
-        ripgrep
+        bun
+        awscli2
+        micro
+        openssl 
+        zoxide
+        go
         tmux
         neovim
         ffmpeg
-        openssl
-        zoxide
-        bun
-        awscli2
-        go
-    	micro
+        jq
+        ripgrep
+        git
+        curl
+        coreutils
       ];
 
-      # Declarative Homebrew (Bundle) per nix-darwin manual
       homebrew = {
         enable = true;
 
         taps = [
-          { name = "domt4/autoupdate"; }       
+          { name = "domt4/autoupdate"; }
           { name = "lonebrew/apps"; }
           { name = "mhaeuser/mhaeuser"; }
           { name = "mistertea/et"; }
@@ -93,8 +80,6 @@
           "pcre2"
           "glib"
           "checkbashisms"
-          "coreutils"
-          "curl"
           "dateutils"
           "diceware"
           "erofs-utils"
@@ -102,7 +87,6 @@
           "gnutls"
           "harfbuzz"
           "libsodium"
-          "ffmpeg"
           "findutils"
           "flock"
           "fping"
@@ -112,11 +96,9 @@
           "node"
           "gemini-cli"
           "gh"
-          "git"
           "gnu-sed"
           "gnu-tar"
           "gnu-time"
-          "go"
           "grep"
           "grepcidr"
           "pkgconf"
@@ -126,14 +108,12 @@
           "imagemagick"
           "ipcalc"
           "iperf3"
-          "jq"
           "mas"
           "moreutils"
           "mosh"
           "mp3wrap"
           "mtr"
           "nano"
-          "neofetch"
           "nmap"
           "ntp"
           "openssh"
@@ -145,7 +125,6 @@
           "pssh"
           "pwgen"
           "rclone"
-          "ripgrep"
           "rsync"
           "scrcpy"
           "shellcheck"
@@ -175,8 +154,6 @@
           "box-drive"
           "brave-browser"
           "chrome-remote-desktop-host"
-          "dropbox"
-          "dupeguru"
           "element"
           "finicky"
           "font-caskaydia-cove-nerd-font"
@@ -184,7 +161,6 @@
           "google-chrome"
           "google-drive"
           "iina"
-          "inssider"
           "macpass"
           "menumeters"
           "protonvpn"
@@ -201,18 +177,16 @@
         ];
 
         masApps = {
-	  		"Perplexity" = 6714467650;
+          "Perplexity" = 6714467650;
         };
 
-        # Safer first runs; adjust later if fully declarative
         onActivation = {
           autoUpdate = false;
           upgrade = false;
-          cleanup = "zap"; # consider "uninstall" or "zap" when lists are final
+          cleanup = "zap";
         };
       };
 
-      # Nix apps into /Applications/Nix Apps
       system.activationScripts.applications.text = let
         env = pkgs.buildEnv {
           name = "system-applications";
@@ -231,7 +205,6 @@
         done
       '';
 
-      # nix-daemon is managed automatically on current nix-darwin master; do not set services.nix-daemon.enable
       nix.settings.experimental-features = "nix-command flakes";
 
       system.configurationRevision = self.rev or self.dirtyRev or null;
