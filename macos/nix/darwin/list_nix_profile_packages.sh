@@ -3,6 +3,6 @@
 
 OUTPUT_FILE="installed-packages.txt"
 
-nix profile list | grep '^Name:' | awk '{print "nixpkgs#" $2}' > "$OUTPUT_FILE"
+NO_COLOR=1 nix profile list | grep '^Name:' | awk '{print "nixpkgs#" $2}' > installed-packages.txt
 
 echo "Package list saved to $OUTPUT_FILE"
